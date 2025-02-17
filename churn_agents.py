@@ -78,7 +78,48 @@ class ChurnExplanationAgent:
             print(f"\nFeature: {feature}")
             print(cpt)
 
+    def predict_churn(self, customer):
+        """ Compute churn probability for a given customer profile using CPTs. """
+        p_churn = 1.0 
+        p_not_churn = 1.0 
+
+        for feature, val in customer.items():
+            if feature in self.model:
+                cpt = self.model[feature]
+                if val in cpt.index:
+                    p_churn = cpt.loc[val, 1]
+                    p_not_churn= cpt.loc[val, 0] 
+
+        tot = p_churn + p_not_churn
+        p_churn_final = p_churn / tot
+        p_not_churn_final = p_not_churn / tot
+
+        print("\nExample Customer: ")
+        print(f"P(Churn) = {p_churn_final:.4f}")
+        print(f"P(No Churn) = {p_not_churn_final:.4f}")
+
 if __name__ == "__main__":
     agent = ChurnExplanationAgent('TelecomCustomerChurn.csv')
     agent.train_model()
     agent.explain_churn()
+
+    # Example customer profile
+    customer_example = {
+        "gender": 0,
+        "SeniorCitizen": 0,
+        "Partner": 0,
+        "Dependents": 0,
+        "tenure": 1, 
+        "PhoneService": 1,
+        "MultipleLines": 0,
+        "InternetService": 1,
+        "OnlineSecurity": 0,
+        "Contract": 0,
+        "PaperlessBilling": 1,
+        "PaymentMethod": 1,
+        "MonthlyCharges": 2,
+        "TotalCharges": 1
+    }
+
+
+    agent.predict_churn(customer_example)
