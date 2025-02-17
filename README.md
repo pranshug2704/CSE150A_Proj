@@ -43,30 +43,10 @@ Select and train a machine learning model (e.g., logistic regression, decision t
 
 Optimize hyperparameters for better performance.
 
-# Model Evaluation
-
-The first model is evaluated based on:
-
-Accuracy
-
-Precision & Recall
-
-F1-score
-
-These metrics provide insights into how well the model performs and areas for improvement.
-
 # Repository and Code Links
 
 All code and Jupyter notebooks have been uploaded and are accessible at:
 [GitHub Repository](https://github.com/pranshug2704/CSE150A_Proj)
-
-# Conclusion
-
-First Model Performance
-
-The model achieved an accuracy of X% with precision and recall scores of Y and Z, respectively.
-
-The performance indicates that the model is reasonably effective but has room for improvement.
 
 # Possible Improvements
 
