@@ -105,12 +105,12 @@ The churn distribution in our dataset shows class imbalance, with fewer customer
 3. **Bayesian Network Structure:** 
    - We implement a Naive Bayes structure for our initial model, where each feature is conditionally independent given the churn status.
    - The graphical model looks like this:
-   ```
+
    Churn
     / | \
    /  |  \
   F1  F2  F3 ... Fn
-   ```
+
    Where F1, F2, etc. are features like gender, tenure, contract type, etc.
 
 4. **CPT Computation:** 
