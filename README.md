@@ -15,6 +15,15 @@ Sensors: It ingests structured and unstructured data, processes it, and refines 
 
 The agent is a goal-based learning system, meaning it seeks to improve its predictive capabilities iteratively. It fits within probabilistic modeling by utilizing statistical techniques such as Bayesian inference, regression models, and neural networks (depending on the dataset).
 
+# Data Exploration and Preprocessing
+
+The dataset used is the Telecom Customer Churn Dataset which is a collection of data on 7,043 customers. Our goal is to predict if a customer is likely to churn (leave the service) using data about demographic, usage and billing. Various key factors play into churn prediction: demographic information (gender, partner status, dependents and senior citizen status), customer information (contract length, payment method, and tenure), service usage (internet service usage, phone service usage and streaming TV status) and billing information (monthly accumulated charges and total charges paid). In order to better visualize the data, we plot the churn distribution in our dataset (using the code in dataExploration.py):
+
+
+In order to work with the data we do thing major things: load and preprocess the data, feature engineering and training and evaluation. Firstly, we preprocess the data by converting the TotalCharges variable to a numerical format, drop missing variables and convert categorical variables into numerical values. For feature engineering we disregard customerID since it is not relevant for our churn predictions. We then split the data into features (denoted X) and target (denoted Y). At the training and evaluation stage we split the data into 80% training and 20% testing. 
+
+Our model has dependencies on a few python libraries and preprocessing steps in the code. We use pandas, numpy, sklearn.model_selection.train_test_split (to split the data into training and testing) and imblearn.over_sampling.SMOTE (to balance the dataset by oversampling the smaller class). 
+
 # Agent Setup & Probabilistic Modeling
 
 Our AI system follows these steps:
