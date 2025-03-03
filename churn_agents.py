@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 class ChurnExplanationAgent:
     def __init__(self, data_path):
@@ -79,30 +80,79 @@ class ChurnExplanationAgent:
             print(cpt)
 
     def predict_churn(self, customer):
-        """ Compute churn probability for a given customer profile using CPTs. """
-        p_churn = 1.0 
-        p_not_churn = 1.0 
+        """ Compute churn probability for a given customer profile using CPTs and Bayes' rule. """
+        # Prior probabilities (can be computed from training data)
+        p_churn_prior = 0.27  # Approximate churn rate in the dataset
+        p_not_churn_prior = 0.73
+
+        # Likelihood computation: P(Features|Churn)
+        p_features_given_churn = 1.0 
+        p_features_given_not_churn = 1.0 
 
         for feature, val in customer.items():
             if feature in self.model:
                 cpt = self.model[feature]
                 if val in cpt.index:
-                    p_churn = cpt.loc[val, 1]
-                    p_not_churn= cpt.loc[val, 0] 
+                    # Multiply by likelihood of each feature given churn status
+                    p_features_given_churn *= cpt.loc[val, 1]
+                    p_features_given_not_churn *= cpt.loc[val, 0]
 
-        tot = p_churn + p_not_churn
-        p_churn_final = p_churn / tot
-        p_not_churn_final = p_not_churn / tot
+        # Apply Bayes' rule: P(Churn|Features) = P(Features|Churn) * P(Churn) / P(Features)
+        # We don't need to compute P(Features) explicitly since we'll normalize
+        p_churn_unnormalized = p_features_given_churn * p_churn_prior
+        p_not_churn_unnormalized = p_features_given_not_churn * p_not_churn_prior
+
+        # Normalize to get probabilities
+        total = p_churn_unnormalized + p_not_churn_unnormalized
+        p_churn_final = p_churn_unnormalized / total
+        p_not_churn_final = p_not_churn_unnormalized / total
 
         print("\nExample Customer: ")
         print(f"P(Churn) = {p_churn_final:.4f}")
         print(f"P(No Churn) = {p_not_churn_final:.4f}")
+        
+        # Return prediction
+        return 1 if p_churn_final > p_not_churn_final else 0
+
+    def evaluate_model(self):
+        """Evaluate the model on the test set and report metrics."""
+        # Make predictions on test set
+        y_pred = []
+        for _, row in self.X_test.iterrows():
+            customer = row.to_dict()
+            pred = self.predict_churn(customer)
+            y_pred.append(pred)
+        
+        # Calculate metrics
+        accuracy = accuracy_score(self.y_test, y_pred)
+        precision = precision_score(self.y_test, y_pred, average='binary')
+        recall = recall_score(self.y_test, y_pred, average='binary')
+        f1 = f1_score(self.y_test, y_pred, average='binary')
+        
+        print("\nModel Evaluation:")
+        print(f"Accuracy: {accuracy:.4f}")
+        print(f"Precision: {precision:.4f}")
+        print(f"Recall: {recall:.4f}")
+        print(f"F1-Score: {f1:.4f}")
+        
+        return accuracy, precision, recall, f1
 
 if __name__ == "__main__":
     agent = ChurnExplanationAgent('TelecomCustomerChurn.csv')
     agent.train_model()
-    agent.explain_churn()
-
+    
+    # Print example CPTs to understand the model
+    print("Example Conditional Probability Tables:")
+    if "Contract" in agent.model:
+        print("\nCPT for Contract:")
+        print(agent.model["Contract"])
+    if "tenure" in agent.model:
+        print("\nCPT for tenure:")
+        print(agent.model["tenure"])
+    
+    # Evaluate model performance
+    agent.evaluate_model()
+    
     # Example customer profile
     customer_example = {
         "gender": 0,
@@ -114,12 +164,12 @@ if __name__ == "__main__":
         "MultipleLines": 0,
         "InternetService": 1,
         "OnlineSecurity": 0,
-        "Contract": 0,
+        "Contract": 0,  # Month-to-month contract
         "PaperlessBilling": 1,
         "PaymentMethod": 1,
         "MonthlyCharges": 2,
         "TotalCharges": 1
     }
 
-
+    print("\nPrediction for example customer:")
     agent.predict_churn(customer_example)
