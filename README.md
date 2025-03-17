@@ -314,10 +314,10 @@ The full source code for our implementation is available in our GitHub repositor
 
 ## References
 
-1. Murphy, K. P. (2012). Machine Learning: A Probabilistic Perspective. MIT Press.
+1. Murphy, K. P. (2012). Machine Learning: A Probabilistic Perspective. MIT Press. https://raw.githubusercontent.com/kerasking/book-1/master/ML%20Machine%20Learning-A%20Probabilistic%20Perspective.pdf
 2. Scikit-learn documentation: https://scikit-learn.org/
-3. Hastie, T., Tibshirani, R., & Friedman, J. (2009). The Elements of Statistical Learning. Springer.
-4. Domingos, P., & Pazzani, M. (1997). On the optimality of the simple Bayesian classifier under zero-one loss. Machine Learning, 29, 103-130.
+3. Hastie, T., Tibshirani, R., & Friedman, J. (2009). The Elements of Statistical Learning. Springer. https://esl.hohoweiya.xyz/book/The%20Elements%20of%20Statistical%20Learning.pdf
+4. Domingos, P., & Pazzani, M. (1997). On the optimality of the simple Bayesian classifier under zero-one loss. Machine Learning, 29, 103-130. https://link.springer.com/content/pdf/10.1023/A:1007413511361.pdf
 
 # AI Assistance Acknowledgment
 
