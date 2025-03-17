@@ -205,6 +205,8 @@ We evaluated our enhanced Bayesian network against our previous Naive Bayes appr
 
 The ROC curve comparison clearly shows that our enhanced model (red line) significantly outperforms the basic Naive Bayes model (blue line), with a much higher area under the curve (AUC).
 
+Additionally, a random guess classifier would achieve an accuracy rate of approximately 50% while our enhanced bayesian network reaches an accuracy rate of 78.8%, which is a significant improvement. 
+
 ### Confusion Matrix
 
 The confusion matrix for our enhanced model shows improved classification performance:
